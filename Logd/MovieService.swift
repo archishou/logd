@@ -4,7 +4,7 @@ class MovieService: ObservableObject {
     @Published var results: [LogdMovie] = []
     
     // PASTE YOUR TMDB READ ACCESS TOKEN HERE
-    private let apiKey = "YOUR_TMDB_TOKEN"
+    private let apiKey = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiYmZlYjcwMTNkMjZiMjVmZjY3NjhlYzA4NmEzYTMwNyIsIm5iZiI6MTc2NzgzODAzOS4zNiwic3ViIjoiNjk1ZjExNTc1NTRkYjkzYzY5ODYzOTExIiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.V1ilweCDqPrT1Kkw1Fn318joQbXjjMnaXiqJsEM7ReQ"
     
     func searchMovies(query: String) async {
         guard !query.isEmpty else {

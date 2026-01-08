@@ -33,5 +33,13 @@ enum SearchScope: String, CaseIterable, Identifiable {
     
     var id: String { self.rawValue }
     var prompt: String { "Search \(self.rawValue.lowercased())..." }
+    
+    // Helper to get the icon for the favorite slots
+    var iconName: String {
+        switch self {
+        case .movies: return "film"
+        case .books: return "book"
+        case .albums: return "music.note"
+        }
+    }
 }
-
