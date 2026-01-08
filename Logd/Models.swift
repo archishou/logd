@@ -10,6 +10,22 @@ protocol LogdMedia {
     var themeColor: Color { get }
 }
 
+struct LogdMovie: Identifiable, Codable, Equatable, LogdMedia {
+    let id: Int
+    let title: String
+    let releaseYear: String
+    let posterPath: String?
+    let overview: String?
+    
+    var subtitle: String { releaseYear }
+    var description: String { overview ?? "No description available." }
+    var themeColor: Color { .blue }
+    var imageURL: URL? {
+        guard let path = posterPath else { return nil }
+        return URL(string: "https://image.tmdb.org/t/p/w500\(path)")
+    }
+}
+
 enum SearchScope: String, CaseIterable, Identifiable {
     case movies = "Movies"
     case books = "Books"
@@ -19,20 +35,3 @@ enum SearchScope: String, CaseIterable, Identifiable {
     var prompt: String { "Search \(self.rawValue.lowercased())..." }
 }
 
-struct LogdMovie: Identifiable, Codable, Equatable, LogdMedia {
-    let id: Int
-    let title: String
-    let releaseYear: String
-    let posterPath: String?
-    let overview: String?
-    
-    // Protocol Requirements
-    var subtitle: String { releaseYear }
-    var description: String { overview ?? "No description available." }
-    var themeColor: Color { .blue }
-    
-    var imageURL: URL? {
-        guard let path = posterPath else { return nil }
-        return URL(string: "https://image.tmdb.org/t/p/w500\(path)")
-    }
-}
