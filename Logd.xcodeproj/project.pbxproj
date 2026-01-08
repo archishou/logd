@@ -21,6 +21,7 @@
 		9819421B2F0F45C300D2BD02 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9819421A2F0F45C300D2BD02 /* Movie.swift */; };
 		9819421D2F0F45FD00D2BD02 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9819421C2F0F45FD00D2BD02 /* Models.swift */; };
 		9819421F2F0F486400D2BD02 /* MovieService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9819421E2F0F486400D2BD02 /* MovieService.swift */; };
+		981942232F0F4E9B00D2BD02 /* MediaDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981942222F0F4E9B00D2BD02 /* MediaDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +60,7 @@
 		9819421A2F0F45C300D2BD02 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		9819421C2F0F45FD00D2BD02 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		9819421E2F0F486400D2BD02 /* MovieService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieService.swift; sourceTree = "<group>"; };
+		981942222F0F4E9B00D2BD02 /* MediaDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 				9819421A2F0F45C300D2BD02 /* Movie.swift */,
 				9819421C2F0F45FD00D2BD02 /* Models.swift */,
 				9819421E2F0F486400D2BD02 /* MovieService.swift */,
+				981942222F0F4E9B00D2BD02 /* MediaDetailView.swift */,
 			);
 			path = Logd;
 			sourceTree = "<group>";
@@ -288,6 +291,7 @@
 				981942132F0F397100D2BD02 /* Components.swift in Sources */,
 				9819421F2F0F486400D2BD02 /* MovieService.swift in Sources */,
 				981942192F0F39A900D2BD02 /* ProfileView.swift in Sources */,
+				981942232F0F4E9B00D2BD02 /* MediaDetailView.swift in Sources */,
 				981941E82F0F32C800D2BD02 /* LogdApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

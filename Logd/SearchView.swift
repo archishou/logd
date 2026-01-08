@@ -5,6 +5,12 @@ struct SearchView: View {
     @State private var selectedScope: SearchScope = .movies
     @StateObject private var movieService = MovieService()
     
+    // FIXED: Added 'overview: nil' to mock data
+    let mockMovies = [
+        LogdMovie(id: 1, title: "The Matrix", releaseYear: "1999", posterPath: nil, overview: "A computer hacker learns from mysterious rebels about the true nature of his reality."),
+        LogdMovie(id: 2, title: "Inception", releaseYear: "2010", posterPath: nil, overview: nil)
+    ]
+    
     var body: some View {
         NavigationStack {
             Group {
@@ -16,7 +22,15 @@ struct SearchView: View {
                     )
                 } else {
                     List(movieService.results) { movie in
-                        MovieSearchRow(movie: movie)
+                        ZStack {
+                            NavigationLink(destination: MediaDetailView(media: movie)) {
+                                EmptyView()
+                            }
+                            .opacity(0)
+                            
+                            MovieSearchRow(movie: movie)
+                        }
+                        .listRowSeparator(.visible)
                     }
                     .listStyle(.plain)
                 }
@@ -32,7 +46,6 @@ struct SearchView: View {
                     Text(scope.rawValue).tag(scope)
                 }
             }
-            // Updated iOS 17+ Syntax
             .onChange(of: searchText) { oldValue, newValue in
                 Task {
                     await movieService.searchMovies(query: newValue)
@@ -42,7 +55,6 @@ struct SearchView: View {
     }
 }
 
-// MARK: - Movie Row Component
 struct MovieSearchRow: View {
     let movie: LogdMovie
     @State private var showingLogSheet = false
@@ -57,8 +69,9 @@ struct MovieSearchRow: View {
                     .foregroundColor(.blue)
             }
             .buttonStyle(.plain)
+            .zIndex(1)
             
-            if let url = movie.posterURL {
+            if let url = movie.imageURL {
                 AsyncImage(url: url) { image in
                     image.resizable()
                         .aspectRatio(contentMode: .fill)
@@ -88,14 +101,13 @@ struct MovieSearchRow: View {
         }
         .padding(.vertical, 4)
         .sheet(isPresented: $showingLogSheet) {
-            LogEntryView(movie: movie)
+            LogEntryView(media: movie)
         }
     }
 }
 
-// MARK: - Log Entry View
 struct LogEntryView: View {
-    let movie: LogdMovie
+    let media: LogdMedia
     @Environment(\.dismiss) var dismiss
     @State private var rating: Int = 0
 
@@ -106,7 +118,7 @@ struct LogEntryView: View {
                     Text("How was")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
-                    Text(movie.title)
+                    Text(media.title)
                         .font(.title3.bold())
                         .multilineTextAlignment(.center)
                 }
@@ -117,19 +129,12 @@ struct LogEntryView: View {
                         Image(systemName: index <= rating ? "star.fill" : "star")
                             .font(.title)
                             .foregroundColor(.orange)
-                            .onTapGesture {
-                                rating = index
-                            }
+                            .onTapGesture { rating = index }
                     }
                 }
                 
-                Divider()
-                    .padding(.horizontal)
-                
-                Text("Write a review...")
-                    .font(.body)
-                    .foregroundColor(.secondary.opacity(0.5))
-                
+                Divider().padding(.horizontal)
+                Text("Write a review...").foregroundColor(.secondary.opacity(0.5))
                 Spacer()
             }
             .padding()
