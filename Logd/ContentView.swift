@@ -109,27 +109,119 @@ struct SearchView: View {
     }
 }
 
-// MARK: - Profile View
+import SwiftUI
+
 struct ProfileView: View {
+    // Define a 3-column layout for the Favorites grid
+    let columns = [
+        GridItem(.flexible(), spacing: 12),
+        GridItem(.flexible(), spacing: 12),
+        GridItem(.flexible(), spacing: 12)
+    ]
+    
     var body: some View {
         NavigationStack {
-            List {
-                Section("Stats") {
-                    HStack {
-                        VStack { Text("12").bold(); Text("Movies") }
-                        Spacer()
-                        VStack { Text("45").bold(); Text("Books") }
-                        Spacer()
-                        VStack { Text("128").bold(); Text("Albums") }
+            ScrollView {
+                VStack(alignment: .leading, spacing: 24) {
+                    
+                    // MARK: - Header Section
+                    HStack(alignment: .center, spacing: 20) {
+                        // Profile Picture
+                        Image(systemName: "person.crop.circle.fill")
+                            .resizable()
+                            .frame(width: 80, height: 80)
+                            .foregroundColor(.gray.opacity(0.3))
+                            .clipShape(Circle())
+                        
+                        // Name and Stats Group
+                        VStack(alignment: .leading, spacing: 12) {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Archi")
+                                    .font(.title2.bold())
+                                Text("@archishmaan")
+                                    .font(.footnote)
+                                    .foregroundColor(.secondary)
+                            }
+                            
+                            // Compact Stats Row
+                            HStack(spacing: 20) {
+                                StatView(label: "Movies", count: "12")
+                                StatView(label: "Books", count: "45")
+                                StatView(label: "Albums", count: "128")
+                            }
+                        }
                     }
-                    .padding(.vertical, 8)
+                    .padding(.top, 10)
+
+                    Divider()
+
+                    // MARK: - Favorites Section
+                    VStack(alignment: .leading, spacing: 16) {
+                        Text("Favorites")
+                            .font(.headline)
+                        
+                        LazyVGrid(columns: columns, spacing: 16) {
+                            // Row 1: Movies (Tall)
+                            FavoriteItem(color: .blue, icon: "film")
+                            FavoriteItem(color: .blue, icon: "film")
+                            FavoriteItem(color: .blue, icon: "film")
+                            
+                            // Row 2: Books (Tall)
+                            FavoriteItem(color: .green, icon: "book")
+                            FavoriteItem(color: .green, icon: "book")
+                            FavoriteItem(color: .green, icon: "book")
+                            
+                            // Row 3: Albums (Square)
+                            FavoriteItem(color: .purple, icon: "music.note", isSquare: true)
+                            FavoriteItem(color: .purple, icon: "music.note", isSquare: true)
+                            FavoriteItem(color: .purple, icon: "music.note", isSquare: true)
+                        }
+                    }
                 }
-                
-                Section("Recent Logs") {
-                    Text("Log history will appear here.")
+                .padding()
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Profile").font(.headline)
                 }
             }
-            .navigationTitle("Profile")
         }
+    }
+}
+
+// MARK: - Supporting Views
+
+struct StatView: View {
+    let label: String
+    let count: String
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text(count)
+                .font(.subheadline.bold())
+            Text(label)
+                .font(.caption2)
+                .foregroundColor(.secondary)
+                .textCase(.uppercase)
+        }
+    }
+}
+
+struct FavoriteItem: View {
+    let color: Color
+    let icon: String
+    var isSquare: Bool = false
+    
+    var body: some View {
+        RoundedRectangle(cornerRadius: 8)
+            .fill(color.opacity(0.15))
+            // 0.66 ratio for posters/books, 1.0 for album squares
+            .aspectRatio(isSquare ? 1.0 : 0.66, contentMode: .fit)
+            .overlay(
+                Image(systemName: icon)
+                    .font(.system(size: 20))
+                    .foregroundColor(color)
+            )
     }
 }
